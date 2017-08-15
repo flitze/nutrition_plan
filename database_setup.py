@@ -14,6 +14,7 @@ class Meal(Base):
     # Create table columns.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    receipt = Column(String)
 
 
 class Ingredients(Base):
