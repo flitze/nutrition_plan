@@ -16,6 +16,7 @@ class Meal(Base):
     name = Column(String(250), nullable=False)
     receipt = Column(String)
     type = Column(String(80))
+    portions = Column(Integer)
 
 
 class Ingredients(Base):
@@ -27,7 +28,6 @@ class Ingredients(Base):
     id = Column(Integer, primary_key=True)
     amount = Column(Integer)
     amount_type = Column(String(80))
-    portions = Column(Integer)
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship(Meal)
 
