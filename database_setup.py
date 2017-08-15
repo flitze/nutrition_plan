@@ -23,8 +23,9 @@ class Ingredients(Base):
     # Create table columns.
     name = Column(String(250), nullable=False)
     id = Column(Integer, primary_key=True)
-    amount = Column(Integer)
     type = Column(String(80))
+    amount = Column(Integer)
+    amount_type = Column(String(80))
     portions = Column(Integer)
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship(Meal)
