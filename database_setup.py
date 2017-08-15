@@ -15,6 +15,7 @@ class Meal(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     receipt = Column(String)
+    type = Column(String(80))
 
 
 class Ingredients(Base):
@@ -24,7 +25,6 @@ class Ingredients(Base):
     # Create table columns.
     name = Column(String(250), nullable=False)
     id = Column(Integer, primary_key=True)
-    type = Column(String(80))
     amount = Column(Integer)
     amount_type = Column(String(80))
     portions = Column(Integer)
