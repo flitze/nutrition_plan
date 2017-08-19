@@ -1,0 +1,22 @@
+<html>
+
+<body>
+
+  <h1>{{menu.name}}</h1>
+
+  <h3>Zutaten für {{menu.portions}} Portionen:</h3>
+
+  {% for ingredient in ingredients %}
+
+  <p>{{ingredient.amount}}
+    {% if ingredient.amount_type == "weight"%}
+    g
+    {% endif %}
+    {{ingredient.name}}
+  </p>
+
+  {% endfor %}
+
+</body>
+
+</html>
