@@ -35,7 +35,11 @@ def available_menues():
 @app.route('/available_menues/<int:menu_id>/ingredients')
 def ingredients(menu_id):
     """Show all ingredients for a specific menu."""
-    pass
+    clicked_menu = session.query(Meal).filter_by(id=menu_id).one()
+    print "clicked_menu: " + str(clicked_menu)
+    menu_ingredients = session.query(Ingredients).filter_by(meal_id=menu_id)
+    return render_template('ingredients.html', menu=clicked_menu,
+                           ingredients=menu_ingredients)
 
 
 if __name__ == '__main__':
