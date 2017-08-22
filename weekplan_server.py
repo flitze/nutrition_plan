@@ -42,6 +42,12 @@ def ingredients(menu_id):
                            ingredients=menu_ingredients)
 
 
+@app.route('/available_menues/new')
+def add_new_meal():
+    """Add a new meal to the avaiable menues list."""
+    return render_template('new_menu.html')
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
