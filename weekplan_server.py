@@ -1,5 +1,5 @@
 """The weekplan webserver."""
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Meal, Ingredients
@@ -42,10 +42,13 @@ def ingredients(menu_id):
                            ingredients=menu_ingredients)
 
 
-@app.route('/available_menues/new')
+@app.route('/available_menues/new', methods=['GET', 'POST'])
 def add_new_meal():
     """Add a new meal to the avaiable menues list."""
-    return render_template('new_menu.html')
+    if request.method == 'POST':
+        return redirect(url_for('available_menues'))
+    else:
+        return render_template('new_menu.html')
 
 
 if __name__ == '__main__':
