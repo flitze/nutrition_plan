@@ -18,6 +18,17 @@ class Meal(Base):
     type = Column(String(80))
     portions = Column(Integer)
 
+    @property
+    def serialize(self):
+        """Serialize meal database entry."""
+        return {
+            'meal_name': self.name,
+            'receipt': self.receipt,
+            'meal_type': self.type,
+            'portions': self.portions,
+            'id': self.id
+        }
+
 
 class Ingredients(Base):
     """Create Ingredients Table."""
@@ -31,6 +42,16 @@ class Ingredients(Base):
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship(Meal)
 
+    @property
+    def serialize(self):
+        """Serialze ingredients database entry"""
+        return {
+            'name': self.name,
+            'amount': self.amount,
+            'amount_type': self.amount_type,
+            'meal_id': self.meal_id,
+            'ingredient_id': self.ingredient_id
+        }
 
 # Create database file.
 engine = create_engine('sqlite:///nutritionplan.db')
