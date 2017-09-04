@@ -4,6 +4,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Meal, Ingredients
 
+import sys
+import codecs
+sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///nutritionplan.db')
@@ -15,7 +20,7 @@ session = DBSession()
 
 @app.route('/')
 def weekplan():
-    """Show the weekplan for the  current week"""
+    """Show the weekplan for the  current week."""
     week_menues = session.query(Meal).all()
     menu_names = " "
     for menu in week_menues:
@@ -44,8 +49,13 @@ def ingredients(menu_id):
 
 @app.route('/available_menues/new', methods=['GET', 'POST'])
 def add_new_meal():
-    """Add a new meal to the avaiable menues list."""
+    """Add a new meal to the available menues list."""
     if request.method == 'POST':
+        newMeal = Meal(name=request.form['name'],
+                       receipt=request.form['receipt'],
+                       portions=request.form['portions'])
+        session.add(newMeal)
+        session.commit()
         return redirect(url_for('available_menues'))
     else:
         return render_template('new_menu.html')
