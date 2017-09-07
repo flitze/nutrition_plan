@@ -1,5 +1,5 @@
-"""Create Database for a weekly nutrition plan"""
-from sqlalchemy import Column, ForeignKey, Integer, String
+"""Create Database for a weekly nutrition plan."""
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, UnicodeText
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -15,7 +15,7 @@ class Meal(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     receipt = Column(String)
-    type = Column(String(80))
+    veggie = Column(Boolean)
     portions = Column(Integer)
 
     @property
@@ -24,7 +24,7 @@ class Meal(Base):
         return {
             'meal_name': self.name,
             'receipt': self.receipt,
-            'meal_type': self.type,
+            'veggie': self.veggie,
             'portions': self.portions,
             'id': self.id
         }
@@ -44,7 +44,7 @@ class Ingredients(Base):
 
     @property
     def serialize(self):
-        """Serialze ingredients database entry"""
+        """Serialze ingredients database entry."""
         return {
             'name': self.name,
             'amount': self.amount,
@@ -52,6 +52,7 @@ class Ingredients(Base):
             'meal_id': self.meal_id,
             'ingredient_id': self.ingredient_id
         }
+
 
 # Create database file.
 engine = create_engine('sqlite:///nutritionplan.db')
