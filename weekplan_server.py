@@ -51,9 +51,12 @@ def ingredients(menu_id):
 def add_new_meal():
     """Add a new meal to the available menues list."""
     if request.method == 'POST':
+        print "name: " + str(request.form['name'])
+        print "veggie: " + str('veggie' in request.form)
         newMeal = Meal(name=request.form['name'],
                        receipt=request.form['receipt'],
-                       portions=request.form['portions'])
+                       portions=request.form['portions'],
+                       veggie='veggie' in request.form)
         session.add(newMeal)
         session.commit()
         return redirect(url_for('available_menues'))
