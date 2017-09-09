@@ -2,7 +2,12 @@
 
 <body>
 
-  <h1>{{menu.name}}</h1>
+  <h1>
+    {{menu.name}}
+    {% if menu.veggie %}
+    - vegetarisch
+    {% endif %}
+  </h1>
 
   <h3>Zutaten für {{menu.portions}} Portionen:</h3>
 
