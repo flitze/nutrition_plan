@@ -1,22 +1,22 @@
-<html>
+{% extends "main.html" %}
+{% block content %}
+  <h1>Neues Rezept</h1>
 
-<body>
+  <form action="{{url_for('add_new_meal')}}" method="POST">
+    <p>Rezeptname:</p>
+    <input type='text' size="30" name="name">
+    <p>Portionen:</p>
+    <input type='number' name="portions" min="1">
+    </br>
+    </br>
+    <input type='checkbox' name="veggie">vegetarisch
+    </br>
+    <p>Rezept:</p>
+    <textarea name='receipt' rows='10' cols='30'></textarea>
+    </br>
+    <input type='submit' value='Weiter zu Zutaten'>
+  </form>
 
-<h1>Neues Rezept</h1>
+  <a href="{{url_for('available_menues')}}">Abbruch</a>
 
-<form action="{{url_for('add_new_meal')}}" method="POST">
-  <p>Rezeptname:</p>
-  <input type='text' size="30" name="name">
-  <p>Portionen</p>
-  <input type='number' name="portions" min="1"
-  <p>Rezept:</p>
-  <textarea name='receipt' rows='10' cols='30'></textarea>
-  </br>
-  <input type='submit' value='Hinzufügen'>
-</form>
-
-<a href="{{url_for('available_menues')}}">Abbruch</a>
-
-</body>
-
-</html>
+{% endblock %}
