@@ -3,40 +3,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-  <div id="ingredient_fields">
-      <div class='label'>Zutat</div>
-      <div class="content" id="wrapper">
-          <input type="text" style="width:120px;" name="ingredient" value="" />
-          <input type="number" style="width:50px" name="amount" min="1">
-          <select>
-            <option value="weight">g</option>
-            <option value="piece">Stück</option>
-          </select>
-        </div>
-    </div>
-    <input type="button" id="add_fields" class="add_fields" value="Neue Zutat"/>
-    <script>
+  <h1>Zutaten</h1>
+  <form id="ingredient_fields" method="POST"></form>
+  <input type="button" id="add_fields" class="add_fields" value="Neue Zutat"/>
+  <script>
     $(document).ready(function() {
       $("#add_fields").click(function() {
-          var intId = $("#buildyourform div").length + 1;
-          var fieldWrapper = $(`<input type="text" style="width:120px;"name="ingredient" value="" />
-                      <input type="number" style="width:50px" name="amount" min="1">
-                      <select>
-                        <option value="weight">g</option>
-                        <option value="piece">Stück</option>
-                      </select>`);
+          var intId = $("#ingredient_fields div").length + 1;
+          var fieldWrapper = $("<div class=\"fieldwrapper\"/>")
+          var txtIngredient = $("<input type=\"text\" style=\"width:120px;\" name=\"ingredient\" value=\"\"/>")
+          var nbrIngredient = $("<input type=\"number\" style=\"width:50px\" name=\"amount\" min=\"1\">")
+          var sltIngredient = $("<select><option value=\"weight\">g</option><option value=\"piece\">Stück</option></select>);")
           var removeButton = $("<input type=\"button\" class=\"remove\" value=\"-\" />");
           removeButton.click(function() {
               $(this).parent().remove();
           });
-          /*fieldWrapper.append(fName);
-          fieldWrapper.append(fType);*/
+          fieldWrapper.append(txtIngredient);
+          fieldWrapper.append(nbrIngredient);
+          fieldWrapper.append(sltIngredient);
           fieldWrapper.append(removeButton);
           $("#ingredient_fields").append(fieldWrapper);
       });
     });
-
-    </script>
+  </script>
 </body>
 
 </html>
