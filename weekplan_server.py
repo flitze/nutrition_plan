@@ -22,11 +22,7 @@ session = DBSession()
 def weekplan():
     """Show the weekplan for the  current week."""
     week_menues = session.query(Meal).all()
-    menu_names = " "
-    for menu in week_menues:
-        menu_names += menu.name
-        menu_names += "</br>"
-    return menu_names
+    return render_template('week_plan.html', week_menues=week_menues)
 
 
 @app.route('/available_menues')
@@ -48,17 +44,33 @@ def ingredients(menu_id):
 
 
 @app.route('/available_menues/new', methods=['GET', 'POST'])
-def add_new_meal():
+def add_new_meal(intId=0):
     """Add a new meal to the available menues list."""
     if request.method == 'POST':
         print "name: " + str(request.form['name'])
         print "veggie: " + str('veggie' in request.form)
-        newMeal = Meal(name=request.form['name'],
-                       receipt=request.form['receipt'],
-                       portions=request.form['portions'],
-                       veggie='veggie' in request.form)
-        session.add(newMeal)
+        new_meal = Meal(name=request.form['name'],
+                        receipt=request.form['receipt'],
+                        portions=request.form['portions'],
+                        veggie='veggie' in request.form)
+        print "new_meal.receipt: " + str(new_meal.receipt)
+        new_meal_ingredients = Ingredients(name="Kaese", amount=240,
+                                           amount_type="weight", meal=new_meal)
+        session.add(new_meal)
         session.commit()
+
+        item_number = 1
+        while item_number <= len(filter(lambda k: 'ingredient' in k,
+                                        request.form.keys())):
+            igd = Ingredients(name=request.form['ingredient_' +
+                              str(item_number)],
+                              amount=request.form['amount_'+str(item_number)],
+                              amount_type=request.form['amount_type_'
+                              + str(item_number)]
+                              , meal=new_meal)
+            session.add(igd)
+            session.commit()
+            item_number += 1
         return redirect(url_for('available_menues'))
     else:
         return render_template('new_menu.html')
