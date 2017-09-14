@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{% block content %}
+  <h1>Wochenplan</h1>
+
+  {% for menu in week_menues %}
+    <p>{{menu.name}}</p>
+  {% endfor %}
+{% endblock %}
