@@ -5,9 +5,7 @@
   {% for menu in available_menues %}
 
   <p>
-    <a href={{url_for('ingredients',
-        menu_id = menu.id)}}>{{menu.name}}
-    </a>
+    <a href="{{url_for('ingredients', menu_id = menu.id)}}">{{menu.name}}</a>
   </p>
 
   {% endfor %}

@@ -1,7 +1,5 @@
-<html>
-
-<body>
-
+{% extends "main.html" %}
+{% block content %}
   <h1>
     {{menu.name}}
     {% if menu.veggie %}
@@ -26,6 +24,13 @@
 
   <p>{{menu.receipt}}</p>
 
-</body>
+  <form action="{{url_for('delete_menu', menu_id=menu.id)}}">
+    <button type="submit" class="btn btn-default delete" id="submit" type="submit">
+      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Gericht löschen
+    </button>
+    <button type="submit" class="btn btn-default edit" id="submit2" type="submit">
+      <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Gericht editieren
+    </button>
+  </form>
 
-</html>
+{% endblock %}
