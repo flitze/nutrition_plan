@@ -1,5 +1,5 @@
 """The weekplan webserver."""
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Meal, Ingredients
@@ -33,7 +33,8 @@ def available_menues():
                            available_menues=available_menues)
 
 
-@app.route('/available_menues/<int:menu_id>/ingredients')
+@app.route('/available_menues/<int:menu_id>/ingredients',
+           methods=['GET', 'POST'])
 def ingredients(menu_id):
     """Show all ingredients for a specific menu."""
     clicked_menu = session.query(Meal).filter_by(id=menu_id).one()
@@ -44,7 +45,7 @@ def ingredients(menu_id):
 
 
 @app.route('/available_menues/new', methods=['GET', 'POST'])
-def add_new_meal(intId=0):
+def add_new_meal():
     """Add a new meal to the available menues list."""
     if request.method == 'POST':
         print "name: " + str(request.form['name'])
@@ -54,26 +55,38 @@ def add_new_meal(intId=0):
                         portions=request.form['portions'],
                         veggie='veggie' in request.form)
         print "new_meal.receipt: " + str(new_meal.receipt)
-        new_meal_ingredients = Ingredients(name="Kaese", amount=240,
-                                           amount_type="weight", meal=new_meal)
+
         session.add(new_meal)
         session.commit()
 
-        item_number = 1
-        while item_number <= len(filter(lambda k: 'ingredient' in k,
-                                        request.form.keys())):
-            igd = Ingredients(name=request.form['ingredient_' +
-                              str(item_number)],
-                              amount=request.form['amount_'+str(item_number)],
-                              amount_type=request.form['amount_type_'
-                              + str(item_number)]
-                              , meal=new_meal)
+        lst_ingrds = filter(lambda k: 'ingredient' in k, request.form.keys())
+        lst_ingrds_index = [ingrd.replace('ingredient_', '')
+                            for ingrd in lst_ingrds]
+
+        for ingrd_index in lst_ingrds_index:
+            igd = Ingredients(name=request.form['ingredient_' + ingrd_index],
+                              amount=request.form['amount_' + ingrd_index],
+                              amount_type=request.form['amount_type_' +
+                              ingrd_index], meal=new_meal)
             session.add(igd)
             session.commit()
-            item_number += 1
+
         return redirect(url_for('available_menues'))
     else:
         return render_template('new_menu.html')
+
+
+@app.route('/available_menues/<int:menu_id>/delete', methods=['GET', 'POST'])
+def delete_menu(menu_id):
+    """Delete dialog for the chosen menu."""
+    menu_to_delete = session.query(Meal).filter_by(id=menu_id).one()
+    if request.method == 'POST':
+        session.delete(menu_to_delete)
+        # flash('%s erfolgreich geloescht' % menu_to_delete.name)
+        session.commit()
+        return redirect(url_for('available_menues'))
+    else:
+        return render_template('delete_menu.html', menu=menu_to_delete)
 
 
 if __name__ == '__main__':
