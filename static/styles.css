@@ -6,7 +6,7 @@ h1 {
 	font-weight: 300;
 }
 .btn {
-	padding: 20px;
+	padding: 10px;
 	margin: 0;
 	border-color: #9FB80A;
 	border-width: 2px;
@@ -20,5 +20,5 @@ h1 {
 	color: #aaaaaa;
 }
 .glyphicon {
-	margin-right: 20px;
+	margin-right: 10px;
 }
