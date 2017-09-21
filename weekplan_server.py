@@ -29,8 +29,10 @@ def weekplan():
 def available_menues():
     """Show all available menues stored in the DB."""
     available_menues = session.query(Meal).all()
+    all_ingredients = session.query(Ingredients).all()
     return render_template('availablemenues.html',
-                           available_menues=available_menues)
+                           available_menues=available_menues,
+                           all_ingredients=all_ingredients)
 
 
 @app.route('/available_menues/<int:menu_id>/ingredients',
