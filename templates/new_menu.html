@@ -4,34 +4,38 @@
 
   <form action="{{url_for('add_new_meal')}}" method="POST">
     <p>Rezeptname:</p>
-    <input type='text' size="30" name="name">
+    <input type='text' size="30" name="name" required>
     <p>Portionen:</p>
-    <input type='number' name="portions" min="1">
+    <input type='number' name="portions" min="1" required>
     </br>
     </br>
     <input type='checkbox' name="veggie">vegetarisch
     </br>
+    </br>
+    <p>Zutaten:</p>
     <div id="placeholder"></div>
     <button type="button" id="add_fields" class="btn btn-default delete" value="Neue Zutat">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neue Zutat
     </button>
     </br>
     <p>Rezept:</p>
-    <textarea name='receipt' rows='10' cols='30'></textarea>
+    <textarea name='receipt' rows='10' cols='30' required></textarea>
     </br>
-    <input type='submit' value='Gericht speichern'>
+    <button type='submit' class="btn btn-default" value='Gericht speichern'>
+      	<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Gericht speichern
+    </button>
+    <a href="{{url_for('available_menues')}}">Abbruch</a>
   </form>
 
-  <a href="{{url_for('available_menues')}}">Abbruch</a>
 
   <script>
     $(document).ready(function() {
       $("#add_fields").click(function() {
           var intId = $("#placeholder div").length + 1;
           var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field_" + intId + "\" name=\"bla_" + intId + "\"/>")
-          var txtIngredient = $("<input type=\"text\" style=\"width:120px;\" name=\"ingredient_" + intId + "\" value=\"\"/>")
+          var txtIngredient = $("<input type=\"text\" style=\"width:120px;\" name=\"ingredient_" + intId + "\" value=\"\" required/>")
           var nbrIngredient = $("<input type=\"number\" style=\"width:50px\" name=\"amount_" + intId + "\" min=\"1\">")
-          var sltIngredient = $("<select name=\"amount_type_" + intId + "\"><option value=\"weight\">g</option><option value=\"piece\">Stück</option></select>);")
+          var sltIngredient = $("<select name=\"amount_type" + intId + "\"><option value=\"g\">g</option><option value=\"Stück\">Stück</option><option value=\"EL\">EL</option><option value=\"TL\">TL</option><option value=\"ml\">ml</option></select>);")
           var removeButton = $("<input type=\"button\" class=\"remove\" value=\"-\" />");
           removeButton.click(function() {
               $(this).parent().remove();
