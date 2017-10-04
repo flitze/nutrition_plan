@@ -40,12 +40,20 @@
           <div class="panel-body">
             <ul type="disc">
               {% for ingredient in all_ingredients %}
-                {% if ingredient.meal_id == menu.id %}
-                  <li>{{ingredient.amount}} {{ingredient.amount_type}} {{ingredient.name}}<li>
-                {% endif %}
+                {%- if ingredient.meal_id == menu.id -%}
+                  <li>
+                    {{ingredient.amount}}
+                    {% if not (ingredient.amount_type != 'Stück' or ingredient.amount_type == 'Stueck') %}
+                      {{ingredient.amount_type}}
+                    {% endif %}
+                    {{ingredient.name}}
+                  </li>
+                {%- endif -%}
               {% endfor %}
             </ul>
-            <p>{{menu.receipt}}<p>
+            <p>{{menu.receipt}}</p>
+            <a href="{{url_for('delete_menu', menu_id = menu.id)}}">Delete</a> |
+            <a href="#">Edit</a>
           </div>
         </div>
       </div>
