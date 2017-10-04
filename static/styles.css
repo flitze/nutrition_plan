@@ -29,6 +29,11 @@ a {
 	color: #aaaaaa;
 }
 
+.btn.delete:hover {
+	border-color: #aaaaaa;
+	color: red;
+}
+
 .glyphicon {
-	margin-right: 10px;
+	margin-right: 5px;
 }
