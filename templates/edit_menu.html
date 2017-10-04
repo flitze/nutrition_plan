@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block content%}
+{% include "header.html" %}
+
+<h1>{{menu.name}}</h1>
+
+<form action="{{url_for('edit_menu', menu_id = menu.id)}}" method="POST">
+  <p>Rezeptname:</p>
+  <input type='text' value="{{menu.name}}" size="30" name="name" required>
+  <p>Portionen:</p>
+  <input type='number' value={{menu.portions}} name="portions" min="1" required>
+  </br>
+  </br>
+  <input type='checkbox' name="veggie" {% if menu.veggie %} checked {% endif %}>vegetarisch
+  </br>
+  </br>
+  <p>Zutaten:</p>
+    {% for ingredient in ingredients %}
+      <div class="fieldwrapper" id="field_" + {{ingredient.id}} name="bla_" + {{ingredient.id}} + />
+      <input type="text" style="width:120px;" name="ingredient_" + {{ingredient.id}} value={{ingredient.name}} required>
+      <input type="number" style="width:50px" name="amount_" + {{ingredient.id}} value={{ingredient.amount}}  min="1">
+      <select name="amount_type" + {{ingredient.id}} + ><option value="g">g</option><option value="Stück">Stück</option><option value="EL">EL</option><option value="TL">TL</option><option value="ml">ml</option></select>
+      <input type="button" class="remove" value="-">
+      </div>
+    {% endfor %}
+  <button type="button" id="add_fields" class="btn btn-default delete" value="Neue Zutat">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neue Zutat
+  </button>
+  </br>
+  <p>Rezept:</p>
+  <textarea name='receipt' value= rows='10' cols='30' required>{{menu.receipt}}</textarea>
+  </br>
+  <button type='submit' class="btn btn-default" value='Änderungen speichern'>
+      <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Änderungen speichern
+  </button>
+  <a href="{{url_for('available_menues')}}">Abbruch</a>
+</form>
+{% endblock %}
