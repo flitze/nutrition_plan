@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% block content %}
+{% include "header.html" %}
   <h1>Neues Rezept</h1>
 
   <form action="{{url_for('add_new_meal')}}" method="POST">
