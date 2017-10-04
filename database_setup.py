@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Create Database for a weekly nutrition plan."""
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, UnicodeText
 from sqlalchemy.ext.declarative import declarative_base
@@ -28,6 +29,9 @@ class Meal(Base):
             'portions': self.portions,
             'id': self.id
         }
+
+    def get_meal_name(self):
+        return self.name
 
 
 class Ingredients(Base):
