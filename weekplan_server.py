@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """The weekplan webserver."""
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
@@ -69,7 +70,7 @@ def add_new_meal():
             igd = Ingredients(name=request.form['ingredient_' + ingrd_index],
                               amount=request.form['amount_' + ingrd_index],
                               amount_type=request.form['amount_type_' +
-                              ingrd_index], meal=new_meal)
+                              str(ingrd_index)], meal=new_meal)
             session.add(igd)
             session.commit()
 
