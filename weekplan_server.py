@@ -92,6 +92,20 @@ def delete_menu(menu_id):
         return render_template('delete_menu.html', menu=menu_to_delete)
 
 
+@app.route('/available_menues/<int:menu_id>/edit', methods=['GET', 'POST'])
+def edit_menu(menu_id):
+    """Edit dialog for the chosen menu."""
+    menu_to_edit = session.query(Meal).filter_by(id=menu_id).one()
+    ingredients_to_edit = session.query(Ingredients).filter_by(meal_id=menu_id)
+    if request.method == 'POST':
+        session.add(menu_to_edit)
+        session.commit()
+        return redirect(url_for('available_menues'))
+    else:
+        return render_template('edit_menu.html', menu=menu_to_edit,
+                               ingredients=ingredients_to_edit)
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
