@@ -12,8 +12,8 @@
   {% for ingredient in ingredients %}
 
   <p>{{ingredient.amount}}
-    {% if ingredient.amount_type == "weight"%}
-    g
+    {% if not ingredient.amount_type == "Stück"%}
+      {{ingredient.amount_type}}
     {% endif %}
     {{ingredient.name}}
   </p>
