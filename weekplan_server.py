@@ -136,6 +136,12 @@ def edit_menu(menu_id):
                                ingredients=ingredients_to_edit)
 
 
+@app.route('/choose_date')
+def choose_date():
+    """Choose the daterange of the weekplan"""
+    return render_template('weekplan_datepicker.html')
+
+
 def delete_ingredients(lst_ingredients):
     """Delete ingredients in an ingredient list."""
     for ingredient_to_delete in lst_ingredients:
