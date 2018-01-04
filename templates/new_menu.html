@@ -36,7 +36,7 @@
           var fieldWrapper = $("<div class='fieldwrapper' id=\"field_" + intId + "\" name=\"bla_" + intId + "\">")
           var txtIngredient = $("<input type=\"text\" style=\"width:120px;\" name=\"ingredient_" + intId + "\" value=\"\" required/>")
           var nbrIngredient = $("<input type=\"number\" style=\"width:50px\" name=\"amount_" + intId + "\" min=\"1\">")
-          var sltIngredient = $("<select name=\"amount_type_" + intId + "\"><option value=\"g\">g</option><option value=\"Stück\">Stück</option><option value=\"EL\">EL</option><option value=\"TL\">TL</option><option value=\"ml\">ml</option><option value=\"Prise\">Prise</option></select>);")
+          var sltIngredient = $("<select name=\"amount_type_" + intId + "\"><option value=\"\"><option value=\"g\">g</option><option value=\"Stück\">Stück</option><option value=\"EL\">EL</option><option value=\"TL\">TL</option><option value=\"ml\">ml</option><option value=\"Prise\">Prise</option><option value=\"Becher\">Becher</option></select>);")
           var removeButton = $("<input type=\"button\" class=\"remove\" value=\"-\" /></div>");
           removeButton.click(function() {
               $(this).parent().remove();

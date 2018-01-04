@@ -20,6 +20,7 @@
       <input type="text" style="width:120px;" name="ingredient_{{ingredient.id}}" value="{{ingredient.name}}" required>
       <input type="number" style="width:50px;" name="amount_{{ingredient.id}}" value="{{ingredient.amount}}"  min="1">
       <select name="amount_type_{{ingredient.id}}" + >
+        <option value="" {%if ingredient.amount_type == "" %} selected {% endif %}></option>
         <option value="g" {% if ingredient.amount_type == "g" %} selected {% endif %}>g</option>
         <option value="Stück" {% if ingredient.amount_type == "Stück" %} selected {% endif %}>Stück</option>
         <option value="EL" {% if ingredient.amount_type == "EL" %} selected {% endif %}>EL</option>

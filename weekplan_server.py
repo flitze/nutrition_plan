@@ -5,6 +5,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Meal, Ingredients
 
+from flask import session as login_session
+import random
+import string
+
+import json
+
 import sys
 import codecs
 sys.stdout = codecs.getwriter('utf8')(sys.stdout)
@@ -12,11 +18,25 @@ sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
 app = Flask(__name__)
 
+APPLICATION_NAME = "Week Plan"
+
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
+
 engine = create_engine('sqlite:///nutritionplan.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+@app.route('/login')
+def showLogin():
+    """Show the login Screen."""
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in range(32))
+    login_session['state'] = state
+    return render_template('login.html', STATE=state)
 
 
 @app.route('/')
@@ -138,7 +158,7 @@ def edit_menu(menu_id):
 
 @app.route('/choose_date')
 def choose_date():
-    """Choose the daterange of the weekplan"""
+    """Choose the daterange of the weekplan."""
     return render_template('weekplan_datepicker.html')
 
 
@@ -159,5 +179,6 @@ def get_index_list(search_string, request_keys):
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=8000)
