@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Meal, Ingredients
+from database_setup import Base, Meal, Ingredients, Weekmeals
 
 from flask import session as login_session
 import random
@@ -168,6 +168,12 @@ def choose_date():
     if request.method == 'POST':
         nbrOfDays = request.form['days']
         print "nbrOfDays: " + nbrOfDays
+        try:
+            session.query(Weekmeals).delete()
+            session.commit()
+            print "Weekmeals deleted."
+        except:
+            session.rollback()
         return redirect(url_for('weekplan'))
     return render_template('weekplan_datepicker.html')
 
