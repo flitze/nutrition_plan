@@ -1,52 +1,44 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
 <div class="container">
   <h1>Available menues</h1>
 
   <div class="panel-group" id="accordion">
     {% for menu in available_menues %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{menu.id}}">
             {{menu.name}}<small>{% if menu.veggie%} vegetarisch {% endif %}</small></a>
           </h4>
-        </div>
-        <div id="collapse_{{menu.id}}" class="panel-collapse collapse">
-          <div class="panel-body">
-            <p><u>Zutaten:</u></p>
-            <ul type="disc">
-              {% for ingredient in all_ingredients %}
-                {%- if ingredient.meal_id == menu.id -%}
-                  <li>
-                    {{ingredient.amount}}
-                    {% if ingredient.amount_type != 'Stück' and ingredient.amount_type != 'Stueck' %}
-                      {{ingredient.amount_type}}
-                    {% endif %}
-                    {{ingredient.name}}
-                  </li>
-                {%- endif -%}
-              {% endfor %}
-            </ul>
-            </br>
-            <p><u>Rezept für {{menu.portions}} Portionen:</u></p>
-            <p>{{menu.receipt}}</p>
-            <a href="{{url_for('delete_menu', menu_id = menu.id)}}">Delete</a> |
-            <a href="{{url_for('edit_menu', menu_id = menu.id)}}">Edit</a>
-          </div>
+      </div>
+      <div id="collapse_{{menu.id}}" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p><u>Zutaten:</u></p>
+          <ul type="disc">
+            {% for ingredient in all_ingredients %} {%- if ingredient.meal_id == menu.id -%}
+            <li>
+              {{ingredient.amount}} {% if ingredient.amount_type != 'Stück' and ingredient.amount_type != 'Stueck' %} {{ingredient.amount_type}} {% endif %} {{ingredient.name}}
+            </li>
+            {%- endif -%} {% endfor %}
+          </ul>
+          </br>
+          <p><u>Rezept für {{menu.portions}} Portionen:</u></p>
+          <p>{{menu.receipt}}</p>
+          <a href="{{url_for('delete_menu', menu_id = menu.id)}}">Delete</a> |
+          <a href="{{url_for('edit_menu', menu_id = menu.id)}}">Edit</a>
         </div>
       </div>
+    </div>
     {% endfor %}
   </div>
 
-</br>
-</br>
+  </br>
+  </br>
 
-<button type='submit' class="btn btn-dafault" id="new" value="new_meal">
-  <a href="{{url_for('add_new_meal')}}">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Neues Rezept
-  </a>
-</button>
-
+  <button type='submit' class="btn btn-dafault" id="new" value="new_meal">
+    <a href="{{url_for('add_new_meal')}}">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Neues Rezept
+    </a>
+  </button>
+</div>
 {% endblock %}

@@ -2,18 +2,17 @@
 {% block content %}
 {% include "header.html" %}
 
-<h1>Aktueller Wochenplan</h1>
-  <div>
-    {% for menu in week_menues %}
+<div class="container">
+      <h1>Aktueller Wochenplan</h1>
+  {% for menu in week_meals %}
       <p>{{menu.name}}</p>
-    {% endfor %}
-  </div>
-
-<form action="{{url_for('choose_date')}}">
-  	<button type="submit" class="btn btn-default" value="create_plan">
-      <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Wochenplan erstellen
-    </button>
-</form>
+  {% endfor %}
+    <form action="{{url_for('choose_date')}}">
+        <button type="submit" class="btn btn-default" value="create_plan">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Wochenplan erstellen
+        </button>
+    </form>
+</div>
 
 
 {% endblock %}

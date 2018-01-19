@@ -16,7 +16,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
-    
+
 
 class Meal(Base):
     """Create Meal Table."""
@@ -66,6 +66,9 @@ class Ingredients(Base):
             'meal_id': self.meal_id,
             'ingredient_id': self.ingredient_id
         }
+
+
+
 
 
 # Create database file.

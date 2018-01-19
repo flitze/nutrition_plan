@@ -1,4 +1,6 @@
-{% extends "main.html"%} {% block content %} {% include "header.html" %}
+{% extends "main.html"%}
+{% block content %}
+{% include "header.html" %}
 
 <head>
 
@@ -13,14 +15,9 @@
 
 
 </head>
-
-
-<body>
-
-
   <!-- GOOGLE PLUS SIGN IN-->
 
-
+<div class="container">
   <div id="signInButton">
     <span class="g-signin"
           data-scope="openid email"
@@ -32,8 +29,8 @@
           data-approvalprompt="force">
     </span>
   </div>
-
   <div id="result"></div>
+</div>
 
   <script>
     function signInCallback(authResult) {
@@ -67,4 +64,4 @@
     }
   </script>
 
-  {% endblock %}
+{% endblock %}

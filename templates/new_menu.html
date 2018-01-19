@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
+<div class="container">
   <h1>Neues Rezept</h1>
 
   <form action="{{url_for('add_new_meal')}}" method="POST">
@@ -27,7 +28,7 @@
     </button>
     <a href="{{url_for('available_menues')}}">Abbruch</a>
   </form>
-
+</div>
 
   <script>
     $(document).ready(function() {

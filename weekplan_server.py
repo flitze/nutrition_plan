@@ -29,6 +29,8 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# Get all stored menues from DB
+
 
 @app.route('/login')
 def showLogin():
@@ -39,11 +41,15 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home')
 def weekplan():
     """Show the weekplan for the  current week."""
-    week_menues = session.query(Meal).all()
-    return render_template('week_plan.html', week_menues=week_menues)
+    available_menu_ids = session.query(Meal).all()
+    # test = session.query(Meal).filter_by(id=available_menu_ids).one()
+    # print test
+
+    return render_template('week_plan.html', week_meals=available_menu_ids)
 
 
 @app.route('/available_menues')
@@ -156,9 +162,13 @@ def edit_menu(menu_id):
                                ingredients=ingredients_to_edit)
 
 
-@app.route('/choose_date')
+@app.route('/choose_date', methods=['GET', 'POST'])
 def choose_date():
     """Choose the daterange of the weekplan."""
+    if request.method == 'POST':
+        nbrOfDays = request.form['days']
+        print "nbrOfDays: " + nbrOfDays
+        return redirect(url_for('weekplan'))
     return render_template('weekplan_datepicker.html')
 
 
