@@ -8,6 +8,7 @@ from database_setup import Base, Meal, Ingredients, Weekmeals
 from flask import session as login_session
 import random
 import string
+import datetime
 
 import json
 
@@ -45,11 +46,11 @@ def showLogin():
 @app.route('/home')
 def weekplan():
     """Show the weekplan for the  current week."""
-    available_menu_ids = session.query(Meal).all()
+    week_meals = session.query(Weekmeals).all()
     # test = session.query(Meal).filter_by(id=available_menu_ids).one()
     # print test
 
-    return render_template('week_plan.html', week_meals=available_menu_ids)
+    return render_template('week_plan.html', week_meals=week_meals)
 
 
 @app.route('/available_menues')
@@ -166,14 +167,25 @@ def edit_menu(menu_id):
 def choose_date():
     """Choose the daterange of the weekplan."""
     if request.method == 'POST':
-        nbrOfDays = request.form['days']
-        print "nbrOfDays: " + nbrOfDays
         try:
             session.query(Weekmeals).delete()
             session.commit()
             print "Weekmeals deleted."
         except:
             session.rollback()
+        nbrOfDays = int(request.form['days'])
+        print "nbrOfDays: " + str(nbrOfDays)
+        for day_in_plan in range(nbrOfDays):
+            testMeal = session.query(Meal).first()
+            meal_id = day_in_plan + 1
+            testWeekMeal = Weekmeals(id=meal_id, name=testMeal.name,
+                                     receipt=testMeal.receipt,
+                                     veggie=testMeal.veggie,
+                                     portions=testMeal.portions,
+                                     meal_date=datetime.date.today())
+            session.add(testWeekMeal)
+            print "Meal added to Weekmeals"
+        session.commit()
         return redirect(url_for('weekplan'))
     return render_template('weekplan_datepicker.html')
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Create Database for a weekly nutrition plan."""
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, UnicodeText
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -72,9 +72,11 @@ class Weekmeals(Base):
     """Create Weekmeals Table."""
 
     __tablename__ = 'weekmeals'
+    __table_args__ = {'extend_existing': True}
     # Create table columns.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    meal_date = Column(Date)
     receipt = Column(String)
     veggie = Column(Boolean)
     portions = Column(Integer)
