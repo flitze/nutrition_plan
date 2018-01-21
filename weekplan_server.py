@@ -173,12 +173,19 @@ def choose_date():
             print "Weekmeals deleted."
         except:
             session.rollback()
+        all_meal_ids = []
+        all_meals = session.query(Meal).all()
+        for meal in all_meals:
+            all_meal_ids.append(int(meal.id))
+        print "all_meals: " + str(all_meals)
+        print "all_meal_ids: " + str(all_meal_ids)
         nbrOfDays = int(request.form['days'])
         print "nbrOfDays: " + str(nbrOfDays)
         for day_in_plan in range(nbrOfDays):
-            testMeal = session.query(Meal).first()
-            meal_id = day_in_plan + 1
-            testWeekMeal = Weekmeals(id=meal_id, name=testMeal.name,
+            random_meal_list_item = random.randrange(len(all_meals))
+            testMeal = session.query(Meal).filter_by(id=all_meal_ids[random_meal_list_item]).one()
+            # meal_id = day_in_plan + 1
+            testWeekMeal = Weekmeals(name=testMeal.name,
                                      receipt=testMeal.receipt,
                                      veggie=testMeal.veggie,
                                      portions=testMeal.portions,
