@@ -52,11 +52,15 @@
 
     console.log($('#datetimepicker6').datepicker("getDate"));
     var nbrOfDays = getDays(($('#datetimepicker6').datepicker("getDate")), ($('#datetimepicker7').datepicker("getDate")));
-
+    var start_date = $('#datetimepicker6').datepicker("getDate");
+    console.log("start_date: " + start_date)
     $.ajax({
       url: '/choose_date',
-      data: {'days': nbrOfDays},
+      data: JSON.stringify({'days': nbrOfDays,
+                            'start_date': start_date}),
       type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
       success: function(response) {
         console.log(response);
       },

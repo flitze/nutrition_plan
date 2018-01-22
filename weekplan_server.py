@@ -179,19 +179,33 @@ def choose_date():
             all_meal_ids.append(int(meal.id))
         print "all_meals: " + str(all_meals)
         print "all_meal_ids: " + str(all_meal_ids)
-        nbrOfDays = int(request.form['days'])
+        json_response = request.get_json()
+        nbrOfDays = json_response['days']
+        start_date = json_response['start_date']
+        print "start_date: " + str(start_date)
+        print "type(start_date): " + str(type(start_date))
+        ptn_start_date = datetime.datetime.strptime(start_date, '%Y-%m-%dT%H:%M:%S.%fZ')
         print "nbrOfDays: " + str(nbrOfDays)
+        print "ptn_start_date: " + str(ptn_start_date)
+        # print "start_date: " + str(request.form['start_date'])
+        cpy_all_meal_ids = all_meal_ids[:]
+        print "start cpy_all_meal_ids: " + str(cpy_all_meal_ids)
         for day_in_plan in range(nbrOfDays):
-            random_meal_list_item = random.randrange(len(all_meals))
-            testMeal = session.query(Meal).filter_by(id=all_meal_ids[random_meal_list_item]).one()
+            random_meal_list_item = random.randrange(len(cpy_all_meal_ids))
+            print "random_meal_list_item: " + str(random_meal_list_item)
+            testMeal = session.query(Meal).filter_by(id=cpy_all_meal_ids[random_meal_list_item]).one()
             # meal_id = day_in_plan + 1
             testWeekMeal = Weekmeals(name=testMeal.name,
                                      receipt=testMeal.receipt,
                                      veggie=testMeal.veggie,
                                      portions=testMeal.portions,
-                                     meal_date=datetime.date.today())
+                                     meal_date=ptn_start_date + datetime.timedelta(days=day_in_plan))
             session.add(testWeekMeal)
+            cpy_all_meal_ids.pop(random_meal_list_item)
+            print "next cpy_all_meal_ids: " + str(cpy_all_meal_ids)
             print "Meal added to Weekmeals"
+            if len(cpy_all_meal_ids) == 0:
+                cpy_all_meal_ids = all_meal_ids[:]
         session.commit()
         return redirect(url_for('weekplan'))
     return render_template('weekplan_datepicker.html')
