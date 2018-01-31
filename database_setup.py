@@ -72,7 +72,6 @@ class Weekmeals(Base):
     """Create Weekmeals Table."""
 
     __tablename__ = 'weekmeals'
-    __table_args__ = {'extend_existing': True}
     # Create table columns.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -80,6 +79,20 @@ class Weekmeals(Base):
     receipt = Column(String)
     veggie = Column(Boolean)
     portions = Column(Integer)
+
+
+class Week_Ingredients(Base):
+    """Create Weekmeal Ingredients Table."""
+
+    __tablename__ = 'week_ingredients'
+    name = Column(String(250), nullable=False)
+    id = Column(Integer, primary_key=True)
+    amount = Column(Integer)
+    amount_type = Column(String(80))
+    meal_id = Column(Integer, ForeignKey('meal.id'))
+    meal = relationship(Meal)
+    weekmeal_id = Column(Integer, ForeignKey('weekmeals.id'))
+    weekmeals = relationship(Weekmeals)
 
 
 # Create database file.
