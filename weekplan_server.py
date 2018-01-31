@@ -3,7 +3,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Meal, Ingredients, Weekmeals
+from database_setup import Base, Meal, Ingredients, Weekmeals,  Week_Ingredients
+import sqlalchemy
 
 from flask import session as login_session
 import random
@@ -58,6 +59,8 @@ def available_menues():
     """Show all available menues stored in the DB."""
     available_menues = session.query(Meal).all()
     all_ingredients = session.query(Ingredients).all()
+    # print "len(result): " + str(result)
+    # print "len(meals_with_ingredients): " + str(meals_with_ingredients)
     return render_template('availablemenues.html',
                            available_menues=available_menues,
                            all_ingredients=all_ingredients)
@@ -190,10 +193,11 @@ def choose_date():
         # print "start_date: " + str(request.form['start_date'])
         cpy_all_meal_ids = all_meal_ids[:]
         print "start cpy_all_meal_ids: " + str(cpy_all_meal_ids)
-        for day_in_plan in range(nbrOfDays):
+        for day_in_plan in range(nbrOfDays + 1):
             random_meal_list_item = random.randrange(len(cpy_all_meal_ids))
             print "random_meal_list_item: " + str(random_meal_list_item)
-            testMeal = session.query(Meal).filter_by(id=cpy_all_meal_ids[random_meal_list_item]).one()
+            random_meal_id = cpy_all_meal_ids[random_meal_list_item]
+            testMeal = session.query(Meal).filter_by(id=random_meal_id).one()
             # meal_id = day_in_plan + 1
             testWeekMeal = Weekmeals(name=testMeal.name,
                                      receipt=testMeal.receipt,
@@ -201,6 +205,16 @@ def choose_date():
                                      portions=testMeal.portions,
                                      meal_date=ptn_start_date + datetime.timedelta(days=day_in_plan))
             session.add(testWeekMeal)
+
+            # get the meals ingredients and store it in week_ingredients list
+            testIngredients = session.query(Ingredients).filter_by(meal_id=random_meal_id).all()
+            for testIngredient in testIngredients:
+                print "testIngredient.name: " + u''.join(testIngredient.name)
+                print "testIngredient.amount" + str(testIngredient.amount)
+                testWeekIngredient = Week_Ingredients(name=testIngredient.name,
+                                                      amount=testIngredient.amount,
+                                                      amount_type=testIngredient.amount_type)
+                session.add(testWeekIngredient)
             cpy_all_meal_ids.pop(random_meal_list_item)
             print "next cpy_all_meal_ids: " + str(cpy_all_meal_ids)
             print "Meal added to Weekmeals"
